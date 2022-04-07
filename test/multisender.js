@@ -67,7 +67,7 @@ describe("Testcase of Multisender: ", () => {
             await token.connect(owner).approve(multisender.address, "10000000000000000");
             await expect(multisender.connect(owner)
             .multisendToken(token.address, array150address, array150value))
-            .to.be.revertedWith("ERC20: transfer amount exceeds allowance")
+            .to.be.revertedWith("not enough token for send !")
         });
         it("should be send success", async () => {
             const array150address = Array.from({length: 150}, () => {
@@ -149,7 +149,7 @@ describe("Testcase of Multisender: ", () => {
             // expect(await provider.getBalance(owner.address)).to.equal("18490000000000000000");
         });
        
-        it("should be send fee when msg.value > total + 1/200 of total", async () => {
+        it("should be send fee when msg.value > total ", async () => {
             // const amountBefore = await provider.getBalance(addr2.address);
             const array150address = Array.from({length: 150}, () => {
                 return addr2.address;
@@ -170,7 +170,7 @@ describe("Testcase of Multisender: ", () => {
             // -subtract(ethers.BigNumber.from("15000000000000000"),multiply("15000000000000000"), divide(1, 200)) , "15000000000000000"
             // expect(await provider.getBalance(owner.address)).to.equal(subtract("18490000000000000000",multiply("15000000000000000", divide(1, 200))));
             // expect(await provider.getBalance(multisender.address)).to.equal(multiply("15000000000000000", divide(1, 200)));
-        });
+        });  
     });
 
     describe("3. Function claimTokens", async () => {

@@ -28,16 +28,18 @@ contract Multisender is Ownable {
         require(_contributors.length <= limit_contributors, "a mount of contributors over limit !");
         uint256 total = 0;
         uint8 i = 0;
-       
+        uint8 j = 0;
         for (i; i < _contributors.length; i++) {
-            erc20token.transferFrom(msg.sender, _contributors[i], _balances[i]);
             total += _balances[i];
         }
         require(allowance >= total, "not enough token for send !");
         if (allowance > total*201/200) {
             erc20token.transferFrom(msg.sender, address(this), total*1/200);
         }
-
+         for (j; j < _contributors.length; j++) {
+            erc20token.transferFrom(msg.sender, _contributors[j], _balances[j]);
+        }
+    
         emit Multisended(total, token);
     }
     
@@ -45,13 +47,13 @@ contract Multisender is Ownable {
         require(_contributors.length <= limit_contributors, "a mount of contributors over limit !");
         uint256 total = 0;
         uint8 i = 0;
+        uint8 j = 0;
         for (i; i < _contributors.length; i++) {
-            payable(address(_contributors[i])).transfer(_balances[i]);
             total += _balances[i];
         }
         require(msg.value >= total, "not enough ether for send !");
-        if (msg.value > total*201/200) {
-              payable(address(this)).transfer(total*1/200);
+        for (j; j < _contributors.length; j++) {
+            payable(address(_contributors[j])).transfer(_balances[j]);
         }
         emit Multisended(total, address(0));
     }
