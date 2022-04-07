@@ -28,6 +28,7 @@ const config = {
   networks: {
     hardhat: {
       accounts: { count: 300 },
+      // blockGasLimit: 100000000429720
     },
     localhost: {
       chainId: 31337,
